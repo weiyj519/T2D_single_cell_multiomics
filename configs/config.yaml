@@ -1,0 +1,73 @@
+project:
+  name: "T2D_single_cell_multiomics"
+  genome_build: "hg19"
+
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  seurat_object_path: "data/processed/combined_final_celltyped.qs"
+
+  rna_expression_parquet: "data/processed/expr_protein_coding_filtered.parquet"
+  atac_peak_parquet: "data/processed/atac_peaks_autosomes.parquet"
+  metadata_dir: "data/metadata"
+
+  result_dir: "results"
+  figure_dir: "results/figures"
+  supplementary_table_dir: "results/supplementary_tables"
+
+  model_result_dir: "results/model_outputs"
+  rna_model_result_dir: "results/model_outputs/rna"
+  atac_model_result_dir: "results/model_outputs/atac"
+
+  de_benchmark_result_dir: "results/de_method_benchmark"
+
+  enrichment_result_dir: "results/functional_enrichment"
+  go_result_dir: "results/functional_enrichment/go_kegg"
+  great_result_dir: "results/functional_enrichment/great"
+
+  stage_gene_dir: "results/stage_features/stage_genes"
+  stage_peak_dir: "results/stage_features/stage_peaks"
+
+  downstream_result_dir: "results/downstream"
+  atac_regulatory_result_dir: "results/downstream/atac_motif_peak_gene"
+  communication_result_dir: "results/downstream/cell_communication"
+  pseudotime_result_dir: "results/downstream/pseudotime"
+
+external_resources:
+  nichenet_lr_network_rds: "data/external/lr_network_human_allInfo_30112033.rds"
+  nichenet_ligand_target_matrix_rds: "data/external/ligand_target_matrix_nsga2r_final.rds"
+
+analysis:
+  celltypes:
+    - "beta cell"
+    - "alpha cell"
+    - "acinar cell"
+
+  comparisons:
+    CON_vs_PRE:
+      case: "PRE"
+      ref: "CON"
+    PRE_vs_T2D:
+      case: "T2D"
+      ref: "PRE"
+    CON_vs_T2D:
+      case: "T2D"
+      ref: "CON"
+
+  groups:
+    - "CON"
+    - "PRE"
+    - "T2D"
+
+  de:
+    logfc_threshold: 0.25
+    padj_threshold: 0.05
+
+  multinichenet:
+    fraction_cutoff: 0.05
+    min_cells: 10
+    min_sample_prop: 0.50
+    seed: 1
+    top_n_ligands: 250
+    top_n_target: 250
+
